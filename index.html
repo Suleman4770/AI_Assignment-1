@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pathfinding Algorithms</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        #result { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Pathfinding Visualizer</h1>
+    <label for="start">Start City: </label>
+    <input type="text" id="start" placeholder="Enter start city">
+    <label for="goal">End City: </label>
+    <input type="text" id="goal" placeholder="Enter end city">
+    <br><br>
+    <button onclick="runAlgorithm('bfs')">Run BFS</button>
+    <button onclick="runAlgorithm('dfs')">Run DFS</button>
+    <button onclick="runAlgorithm('ucs')">Run UCS</button>
+    <div id="result"></div>
+
+    <script>
+        async function runAlgorithm(algo) {
+            const start = document.getElementById("start").value;
+            const goal = document.getElementById("goal").value;
+
+            const response = await fetch(`/run?algo=${algo}&start=${start}&goal=${goal}`);
+            const result = await response.json();
+
+            document.getElementById("result").innerHTML = `
+                <h3>Results</h3>
+                <p>Algorithm: ${algo.toUpperCase()}</p>
+                <p>Path: ${result.path}</p>
+                <p>Total Cost: ${result.cost}</p>
+                <p>Steps Taken: ${result.steps}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
